@@ -1,0 +1,33 @@
+<% layout("/layouts/boilerplate.ejs")-%>
+<body ><br><br>
+    <div class="card " style="background-color: rgb(234, 227, 218);">
+         <h3>Patients Appointment Information</h3>
+
+        <% for(let doc of patient ){ %>
+            
+            
+            <br><br>
+            <div class="cardbox" >
+                <div class="card-header">
+                    <b><%= doc.firstName %> <%= doc.lastName %></b>
+                    <% if (doc.done) { %>
+                        <span id="tick-mark">✔️</span>
+                      <% } %>
+                </div>
+                <div class="card-body carddoctor" >
+                <p class="card-text"><B>Mobile Number: </B>  <%= doc.mobileNumber%></p>
+                <p class="card-text"><B>Email: </B>  <%= doc.email %></p>
+                <p class="card-text"><b>Date: </b><%=doc.preferredAppointmentDate.month %>/<%=doc.preferredAppointmentDate.date %>/<%=doc.preferredAppointmentDate.year %></p>
+                <p class="card-text"><B>Time: </B>  Start-><%= doc.preferredAppointmentDate. startTime %>      End->  <%= doc.preferredAppointmentDate.endTime %></p>
+                <p class="card-text"><b>Address: </b><%= doc.address.street %>,<%= doc.address.city %>,<%= doc.address.state %></p>
+                <p class="card-text"><B>Comment: </B>  <%= doc.comment %></p>
+                <p class="card-text"><B>Disease: </B>  <%= doc.disease %></p>
+                <p class="card-text"><B>Prescription: </B>  <%= doc.precaution %></p>
+                <p class="card-text"><B>precaution: </B>  <%= doc.prescription %></p>
+                </div>
+               
+            </div>
+           
+        <% } %>
+    </div>
+    <br><br><br><br>

@@ -1,0 +1,47 @@
+<% layout("/layouts/boilerplate.ejs")-%>
+<body class="searchbg">
+    <div  >
+        <form action="/submit" method="POST" class="formp " >
+            <input class="form-control inputsym"type="text" name="input" required placeholder="Enter Symptom or Speciality"/>
+            <button type="submit" class="btn btn-info ">Search</button>
+          </form>
+    </div>
+    <h3 style="margin-left: 240px; margin-top: 30px;">Choose from common symptoms</h3>
+    <div class="chosesym">
+  <div class="optionsymp">
+    <a href="http://localhost:8080/stomachpain" class="alts"><img src="./choosesymimg/stomachpain.jpeg" class="imgp"><br><b>Stomach pain</b></a>
+        
+    <a href="http://localhost:8080/acne" class="alts" ><img src="./choosesymimg/acne.jpeg" class="imgp"><br><b style="margin-left: 23px;">Acne</b></a>
+    
+    <a href="http://localhost:8080/backpain" class="alts"><img src="./choosesymimg/backpain.jpeg" class="imgp"><br><b style="margin-left: 10px;">Back pain</b></a>
+  </div>
+      <div class="optionsymp">
+        <a href="http://localhost:8080/pcos" class="alts"><img src="./choosesymimg/pcos.jpeg" class="imgp"><br><b style="margin-left: 23px;">PCOS</b></a>
+        
+        <a href="http://localhost:8080/stress" class="alts"><img src="./choosesymimg/stress.jpeg" class="imgp"><br><b style="margin-left: 23px;">Stress</b></a>
+        
+        <a href="http://localhost:8080/thyroid" class="alts"><img src="./choosesymimg/thyroid.jpeg" class="imgp"><br><b style="margin-left: 21px;">Thyroid</b></a>
+      </div> 
+      <h3 style="margin-left: 240px; margin-top: 30px;">Choose from Top Speciality</h3>
+      
+      <div class="chosesym">
+        <div class="optionsymp">
+          <a href="http://localhost:8080/cardio" class="alts"><img src="./choosespecimg/cardiology.jpeg" class="imgp"><br><b>Cardiology</b></a>
+              
+          <a href="http://localhost:8080/dental" class="alts" ><img src="./choosespecimg/dental.jpeg" class="imgp"><br><b style="margin-left: 23px;">Dental</b></a>
+          
+          <a href="http://localhost:8080/diabtology" class="alts"><img src="./choosespecimg/diabtology.jpeg" class="imgp"><br><b style="margin-left: 10px;">Diabetology</b></a>
+        </div >
+            <div class="optionsymp" >
+              <a href="http://localhost:8080/eye" class="alts"><img src="./choosespecimg/eye.jpeg" class="imgp"><br><b style="margin-left: 23px;">Eye</b></a>
+              
+              <a href="http://localhost:8080/gyno" class="alts"><img src="./choosespecimg/gyno.jpeg" class="imgp"><br><b style="margin-left: 23px;">Gynecology</b></a>
+              
+              <a href="http://localhost:8080/ortho" class="alts"><img src="./choosespecimg/ortho.jpeg" class="imgp"><br><b style="margin-left: 21px;">Orthopedic</b></a>
+            </div> 
+
+        
+    </div>
+    <br><br><br>
+</body>
+

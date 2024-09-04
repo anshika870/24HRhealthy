@@ -1,0 +1,108 @@
+<% layout("/layouts/boilerplate.ejs")-%>
+<body class="searchbg">
+    <br>
+    <br>
+    
+   <form class="row g-3 apoinform" action="/apoinform" method="post">
+    <h1 >Appointment Request Form </h1>
+    <h6> Let us know how we can help you!!</h6><br><hr>
+    <h5 style="text-align: center;">Patient Information</h5><br><br><hr>
+    <div class="row">
+        
+        <div class="col">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" name="firstName"class="form-control"  placeholder="First name" required >
+        </div>
+        <div class="col">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" name="lastName"class="form-control"placeholder="Last name" required>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email"class="form-control" id="inputEmail4" required>
+        </div>
+        <div class="col-md-6">
+        <label for="mobileNumber" class="form-label">Contact Number</label>
+        <input type="String" name="mobileNumber" class="form-control" id="inputPassword4"required>
+        </div>
+        <div class="col-12">
+        <label for="street" class="form-label">Address</label>
+        <input type="text" class="form-control"  name="street"id="inputAddress" placeholder="1234 Main St" required>
+        </div>
+        <div class="col-md-6">
+        <label for="city" class="form-label">City</label>
+        <input type="text"  name="city"class="form-control" id="inputCity" required>
+        </div>
+        
+        <div class="col-md-6">
+        <label for="state" class="form-label">State</label>
+        <input type="text"  name="state" class="form-control" id="inputCity" required>
+        </div>
+        <h6 >Preferred Appointment Date </h6>
+            <div class="col-md-3">
+                <label for="month" class="form-label">Month</label>
+                <input type="text"  name="month" class="form-control" id="inputCity" required>
+            </div>
+            <div class="col-md-2">
+                <label for="date" class="form-label">Date</label>
+                <input type=" String"  name="date" class="form-control" id="inputCity" required>
+            </div>
+            <div class="col-md-2">
+                <label for="year" class="form-label">Year</label>
+                <input type="text"  name="year" class="form-control" id="inputCity"required>
+            </div>  
+        
+        <h6 >Preferred Time </h6>
+            
+            <div class="col-md-2">
+                <label for="startTime" class="form-label">Start</label>
+                <input type=" String"  name="startTime"class="form-control" id="inputCity"required>
+            </div>
+            <div class="col-md-2">
+                <label for="endTime" class="form-label">End</label>
+                <input type="text" name="endTime" class="form-control" id="inputCity"required>
+            </div>  
+        
+            <div class="form-floating">
+                <textarea class="form-control" name="comment"placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                <label for="comment">Comments</label>
+              </div>
+              <br><br>
+        <hr>
+        <h5 style="text-align: center;">Doctor Information</h5><br><br><hr><br><br>
+        <div class="row">
+        
+          <div class="col">
+          <label for="docid" class="form-label">Unique Id (Doctor)</label>
+          <input type="password" name="docid"class="form-control"  value="<%=  currdoctor._id %>"readonly >
+          </div>
+          <div class="col">
+          <label for="loginid" class="form-label">Unique Id (Patient)</label>
+          <input type="password" name="loginid"class="form-control"  value="<%=  currUser._id %>"readonly >
+          </div>
+          <div class="col">
+          <label for="docname" class="form-label">Doctor Name</label>
+          <input type="text" name="docname"class="form-control" value="<%=  currdoctor.name %>"readonly>
+          </div>
+      </div><br><br><br>
+        <div class="row">
+        
+          <div class="col">
+          <label for="specialty" class="form-label">Speciality</label>
+          <input type="text" name="specialty"class="form-control"  value="<%=  currdoctor.specialty%>"readonly >
+          </div>
+          <!-- <div class="col">
+          <label for="Doctor_n" class="form-label">Mobile Number</label>
+          <input type="text" name="Doctor_n"class="form-control" value=""readonly>
+          </div> -->
+      </div>
+      <br><br><br><br><br>
+        <div class="col-12"style="text-align: center  !important;">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      
+</form>
+    <br><br><br>
+</body>

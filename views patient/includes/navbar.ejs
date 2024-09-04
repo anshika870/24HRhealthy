@@ -1,0 +1,16 @@
+<nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid ">
+      <a class="navbar-brand navbar" href="http://localhost:8080/24hrHealthy">
+        <img src="/logo.jpg" alt="Logo" width="40" height="40" class="d-inline-block align-text-top" style="border-radius: 50%;">
+        <h5 >24hrHealthy</h5>
+      </a>
+      <% if(!currUser){ %>
+      <a class="login " href="http://localhost:8080/login">Login</a>
+      <a class="signup" href="http://localhost:8080/signup">Sign up</a>
+      <% } %>
+      <% if(currUser){ %>
+      <a class="logout" style="color: #fff;text-decoration: none;margin-left: 0px;" href="http://localhost:8080/apoininfo/<%= currUser._id %>">Appoinments</a>
+      <a class="logout" style="color: #fff;text-decoration: none;margin-left: 0px;" href="http://localhost:8080/logout">Logout</a>
+      <% } %>
+    </div>
+</nav>

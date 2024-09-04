@@ -1,0 +1,161 @@
+.bn{
+    background-image: url("background.avif");
+    background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.patient-img{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    padding: 20px;
+}
+.doctor-img{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    padding: 20px;
+}
+.medical_s-img{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    padding: 20px;
+}
+.admin-img{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    padding: 20px;
+}
+.large{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.welcome{
+    text-align: center;
+    margin-top: 100px;
+}
+.glow {
+    font-size: 60px;
+    color: #fff;
+    text-align: center;
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+  
+@-webkit-keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #007fe6, 0 0 40px #0058e6, 0 0 50px #00dbe6, 0 0 60px #0032e6, 0 0 70px #0049e6;
+    }
+    
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #4db5ff, 0 0 40px #4d56ff, 0 0 50px #4dafff, 0 0 60px #4dc1ff, 0 0 70px #4d7fff, 0 0 80px #4d9dff;
+    }
+  }
+.ptext{
+  margin-left: 60px;
+}
+.dtext{
+  margin-left: 60px;
+}
+.mstext{
+  margin-left: 30px;
+}
+.atext{
+  margin-left: 60px;
+}
+.navbar{
+  display: flex;
+}
+.searchbg{
+  background-image: url("hospital2.avif");
+  
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.inputsym{
+  width: 500px !important;
+}
+.formp{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.login{
+  color: #fff;
+  margin-left: 1170px;
+  text-decoration: none;
+}
+.signup{
+  color: #fff;
+  text-decoration: none;
+  margin-left: 0px;
+  margin-right: 20px;
+}
+.logout{
+  color: #fff;
+  text-decoration: none;
+  margin-left: 0px;
+}
+.dbg{
+  background-image: url("doctorbg2.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.cardbox{
+  border: 2px solid black!important;
+  background-color: white;
+  opacity: 0.85;
+  border-radius: 12px !important;
+}
+.card{
+  background-image: url("doctorbg2.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 0%;
+  border-image-width: 0%;
+ 
+ 
+}
+.signupbg{
+  background-image: url("signup.jpg") ;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.imgp{
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+}
+.alts{
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+}
+.optionsymp{
+  display: flex;
+  justify-content: center;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+  margin-top: 80px;
+}
+.loginor{
+  text-align: center;
+}
+.bgdoctorview{
+  background-image: url("signup.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.apoinform{
+  margin-left: 150px !important;
+ 
+}
+.Appointments{
+  color: #fff;
+  text-decoration: none;
+ margin-right:1100px;
+}
+
