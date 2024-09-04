@@ -1,0 +1,37 @@
+<% layout("/layouts/boilerplate.ejs")-%>
+<body class="signupbg"><br><br>
+    <div  >
+        <form action="/searchpatient" method="POST" class="formp " >
+            <input class="form-control inputsym"type="text" name="input" required placeholder="Enter First Name of Patient"/>
+            <button type="submit" class="btn btn-success" >Search</button>
+          </form>
+    </div><br><br>
+    <div class="card">
+         <h3>Patients Appointment Information</h3>
+
+        <% for(let doc of patient ){ %>
+            
+            <br><br>
+            <div class="cardbox">
+                <div class="card-header">
+                   
+                    <b><%= doc.firstName %> <%= doc.lastName %></b><% if (doc.done) { %>
+                        <span id="tick-mark">✔️</span>
+                      <% } %>
+                 
+                </div>
+                <div class="card-body carddoctor" >
+                <p class="card-text"><B>Mobile Number: </B>  <%= doc.mobileNumber%></p>
+                <p class="card-text"><B>Email: </B>  <%= doc.email %></p>
+                <p class="card-text"><b>Date: </b><%=doc.preferredAppointmentDate.month %>/<%=doc.preferredAppointmentDate.date %>/<%=doc.preferredAppointmentDate.year %></p>
+                <p class="card-text"><B>Time: </B>  Start-><%= doc.preferredAppointmentDate. startTime %>      End->  <%= doc.preferredAppointmentDate.endTime %></p>
+                <p class="card-text"><b>Address: </b><%= doc.address.street %>,<%= doc.address.city %>,<%= doc.address.state %></p>
+                <p class="card-text"><B>Comment: </B>  <%= doc.comment %></p>
+                </div>
+                <a class="btn btn-success" href="http://localhost:3000/showapinfo/<%= doc._id %>">Show Full request</a>
+            </div>
+           
+        <% } %>
+    </div>
+    <br><br><br><br>
+   

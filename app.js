@@ -1,19 +1,16 @@
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
-const Doctor=require("./models/doctors.js");
 const bodyParser = require('body-parser');
 const ejsMate=require("ejs-mate");
-const path = require("path");
+const Doctor=require("./models/doctor.js");
 const session=require("express-session");
 const flash=require("connect-flash");
 const passport=require("passport");
+const path=require("path");
 const LocalStrategy=require("passport-local");
-const Patient=require("./models/patient.js");
+const Doclogin=require("./models/doctorlog.js");
 const appoint=require("./models/appointment.js");
-const { check, validationResult } = require('express-validator');
-
-
 
 main().then(()=>{
     console.log("connected to db");
@@ -23,14 +20,11 @@ main().then(()=>{
 async  function main(){
     await mongoose.connect("mongodb://127.0.0.1:27017/24hrHEALTHY")
     }
-app.listen(8080,()=>{
-    console.log("listen at port 8080..");
+app.listen(3000,()=>{
+    console.log("listen at port 3000..");
 });
 app.use(express.static('views'));
 app.engine("ejs",ejsMate);
-
-app.set("views", path.join(__dirname, "views"));
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const sessionOption={
     secret:"myscretecode",
@@ -39,242 +33,212 @@ const sessionOption={
     cookie:{
     expires:Date.now()+7*24*60*60*1000,
     maxAge: 7*24*60*60*1000,
-    httpOnly:true,  
+    httpOnly:true, 
     },
 };
 
+app.set("views", path.join(__dirname, "views"));
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(session(sessionOption));
 app.use(flash());
-
+  
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(Patient.authenticate()));
 
-
-
-passport.serializeUser(Patient.serializeUser());
-passport.deserializeUser(Patient.deserializeUser());
-
-
+passport.use(new LocalStrategy(Doclogin.authenticate()));
+passport.serializeUser(Doclogin.serializeUser());
+passport.deserializeUser(Doclogin.deserializeUser());
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
     res.locals.currUser=req.user;
     next();
 });
-
-
-
-app.get("/24hrHealthy",(req,res)=>{
-     res.render("../views/index.ejs");
-});
-app.get('/patient', (req, res) => {
-  res.render("formp.ejs");
-});
-app.get('/signup',(req,res)=>{
-    res.render("../views/signup.ejs")
-});
-
-app.post('/signup',async(req,res)=>{
-    try{
-
-        let{username,email,password}=req.body;
-        const newPatient=new Patient({email,username});
-        const registeredPatient=await Patient.register(newPatient,password);
-        res.redirect("/login");
-        }catch(err){
-        req.flash("error",err.message);
-        res.redirect("/signup");
-    }
-});
-
-
-
-
-
 app.get("/login",(req,res)=>{
     res.render("../views/login.ejs");
 });
 
+
 app.post("/login",passport.authenticate("local",{failureRedirect:'/login',failureFlash:true}),async(req,res)=>{
     req.flash("success","Welcome back to 24hrHealthy!!");
-    res.redirect("/patient");
+    const {username}=req.body;
+    const currdoctor = await Doctor.findOne({ name:username });
+
+    res.render("../views/docview.ejs",{currdoctor:currdoctor})
 });
 
-app.get("/logout",(req,res,next)=>{
-    req.logout((err)=>{
-        if(err){
-            return next(err);
-        }
-        req.flash("error","you are logged out !!")
-        res.redirect("/24hrHealthy");
-
-    })
-})
-
-app.post('/submit', async(req, res) => {
-    const userinput= req.body.input;
-    const alldoctors = await Doctor.find({ $or: [ {symptom : `${userinput }` }, {specialty: `${userinput }`   } ] });
-    res.render("../views/patient.ejs", {alldoctors});
-
+app.get('/signup',(req,res)=>{
+    res.render("../views/signup.ejs");
 });
 
-
-// Validation middleware
-const validateAppointment = [
-    check('firstName').notEmpty().withMessage('First name is required'),
-    check('lastName').notEmpty().withMessage('Last name is required'),
-    check('mobileNumber').notEmpty().isMobilePhone().withMessage('Valid mobile number is required'),
-    check('email').notEmpty().isEmail().withMessage('Valid email is required'),
-    check('street').notEmpty().withMessage('Street is required'),
-    check('city').notEmpty().withMessage('City is required'),
-    check('state').notEmpty().withMessage('State is required'),
-    check('month').notEmpty().isInt({ min: 1, max: 12 }).withMessage('Valid month is required'),
-    check('date').notEmpty().isInt({ min: 1, max: 31 }).withMessage('Valid date is required'),
-    check('year').notEmpty().isInt({ min: new Date().getFullYear(), max: new Date().getFullYear() + 1 }).withMessage('Valid year is required'),
-    check('startTime').notEmpty().withMessage('Start time is required'),
-    check('endTime').notEmpty().withMessage('End time is required')
-];
-
-
-
-app.post('/apoinform',validateAppointment, async (req, res) => {
-    const { firstName, lastName, mobileNumber, email, street, city, state, month, date, year, startTime, endTime, comment,docid,loginid,
-        specialty,
-        name } = req.body;
-
-    const newUser = new appoint({
-    firstName,
-    lastName,
-    mobileNumber,
-    email,
-    docid,
-    loginid,
-    specialty,
-    name,
-    address: {
-        street,
-        city,
-        state
-    },
-    preferredAppointmentDate: {
-        month,
-        date,
-        year,
-        startTime,
-        endTime
-    },
-    comment,
-    });
-    console.log(newUser);
+app.post('/signup',async(req,res)=>{
     try {
-        await newUser.save();
-        req.flash("success","We will catch you soon via your registerd Email or Phone number !!");
-        console.log("data saved");
+        let { username, email, password, name, symptom, specialty, mobile_number } = req.body;
         
-        res.render("../views/formp.ejs");
+        // Create new doctor login
+        const newDoctorLogin = new Doclogin({ email, username });
+        const registeredDoctor = await Doclogin.register(newDoctorLogin, password);
+        
+        // Save doctor details
+        const newDoctor = new Doctor({ name, symptom, specialty, mobile_number });
+        await newDoctor.save();
+        
+        // Retrieve saved doctor information
+        const currdoctor = await Doctor.findOne({ name });
+        
+        // Set success flash message and redirect
+        req.flash('success', 'Welcome back to 24hrHealthy!!');
+        res.render("../views/docview.ejs",{currdoctor:currdoctor}); // Redirect to the desired page after successful signup
         
     } catch (err) {
-        res.status(500).send(`Error saving user: ${err.message}`);
+        // Set error flash message and redirect to signup page
+        req.flash('error', err.message);
+        res.redirect('/signup');
     }
 });
-app.get('/checkauthenticationapoint/:id', async (req,res)=>{
-    if(!req.isAuthenticated()){
-    req.flash("error","you must be logged in !!");
-    res.redirect("/login");
-    }else{ 
+app.get("/logout",(req,res,next)=>{
+        req.logout((err)=>{
+            if(err){
+                return next(err);
+            }
+            req.flash("error","you are logged out !!")
+            res.redirect("/login");
+    
+        })
+    });
+
+app.get('/searchdocinfo/:id', async (req, res) => {
         try {
             if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
                 return res.status(400).send('Invalid ID');
             }
             const doctor = await Doctor.findById(req.params.id);
+            console.log(doctor);
             if (!doctor) {
             return res.status(404).send('Doctor not found');
             }
-            res.render("../views/appointmentform.ejs", { currdoctor: doctor });
+            res.render("../views/profile.ejs", { currdoctor: doctor });
+    } catch (err) {
+            res.status(500).send('Server error');
+    }
+    });
+app.get('/appointment/:id',async(req,res)=>{
+    try {
+        const id=req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).send('Invalid ID');
+        }
+        const patient = await appoint.find({docid:req.params.id});
+        if (!patient) {
+        return res.status(404).send('Doctor not found');
+        }
+
+
+    
+        res.render("../views/showapointdetail.ejs", { patient});
+} catch (err) {
+        res.status(500).send('Server error');
+}
+});
+
+app.get('/showapinfo/:id',async(req,res)=>{
+    try {
+    
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).send('Invalid ID');
+        }
+        const currapoininfo = await appoint.findById(req.params.id);
+        if (!currapoininfo) {
+        return res.status(404).send('APPOINTMENT NOT FOUND ');
+        }
+        res.render("../views/apoiinfo.ejs", { currappoin:currapoininfo   });
+} catch (err) {
+        res.status(500).send('Server error');
+}
+})
+app.post("/searchpatient",async(req,res)=>{
+    try {
+    
+        
+    let {input}=req.body;
+    const patient = await appoint.find({firstName:input});
+    console.log(patient);
+    if (!patient) {
+        return res.status(404).send('Doctor not found');
+        }
+        res.render("../views/showapointdetail.ejs", { patient});
     } catch (err) {
             res.status(500).send('Server error');
     }
 
-}});
+    
+    // res.render("../views/showapointdetail.ejs", { patient});
 
-app.get("/apoininfo/:id",async(req,res)=>{
+})
+app.get("/searchdocinfonavbar/:id",async(req,res)=>{
+
+        try {
+            if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+                return res.status(400).send('Invalid ID');
+            }
+            const doctorid = await Doclogin.findById(req.params.id);
+            const docid=doctorid.username;
+            const doctor = await Doctor.findOne({name:docid});
+            if (!doctor) {
+            return res.status(404).send('Doctor not found');
+            }
+            res.render("../views/profile.ejs", { currdoctor: doctor });
+    } catch (err) {
+            res.status(500).send('Server error');
+    }
+});
+
+app.get("/appointmentnavbar/:id",async(req,res)=>{
+
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).send('Invalid ID');
         }
-        const allapoints = await appoint.find({loginid:req.params.id });
-        console.log(allapoints);
-        res.render("../views/appointmentnavbar.ejs", { patient :allapoints });
-       
+        const doctorid = await Doclogin.findById(req.params.id);
+        const docid=doctorid.username;
+        const doctor = await Doctor.findOne({name:docid});
+        const id=doctor.id;
+        const patient = await appoint.find({docid:id});
+        if (!patient) {
+        return res.status(404).send('Doctor not found');
+        }
+    res.render("../views/showapointdetail.ejs", { patient});
 } catch (err) {
         res.status(500).send('Server error');
 }
 
 })
 
+app.get("/submitprescription/:id", async (req, res) => {
+    const { disease, prescription, precaution } = req.body;
 
+    // Initialize updateFields object
+    const updateFields = { done: true }; // Always set done to true
 
+    // Only add fields to updateFields if they are provided in the request
+    if (disease) updateFields.disease = disease;
+    if (prescription) updateFields.prescription = prescription;
+    if (precaution) updateFields.precaution = precaution;
 
-
-
-
-
-
-
-
-
-
-//image processing using symptoms
-///**************************************************** */
-app.get('/stomachpain',async(req,res)=>{
-    const alldoctors=await Doctor.find({symptom:"Stomach pain"});
-    res.render("../views/patient.ejs",{alldoctors});
+    try {
+        // Use findByIdAndUpdate to update the appointment
+        const updatedAppointment = await appoint.findByIdAndUpdate(req.params.id, updateFields, { new: true });
+        
+        if (!updatedAppointment) {
+            return res.status(404).send('Appointment not found');
+        }
+    
+        req.flash("success", "Appointment Request Completed");
+        res.status(200).send(updatedAppointment); // Send the updated document back as a response
+    
+    } catch (err) {
+        console.error("Error updating appointment:", err); // Log the error for debugging
+        res.status(500).send('Server error');
+    }
 });
-app.get('/acne',async(req,res)=>{
-    const alldoctors=await Doctor.find({symptom:"Acne"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/backpain',async(req,res)=>{
-    const alldoctors=await Doctor.find({symptom:"Back pain"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/stress',async(req,res)=>{
-    const alldoctors=await Doctor.find({symptom:"Stress"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/thyroid',async(req,res)=>{
-    const alldoctors=await Doctor.find({symptom:"Thyroid"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/pcos',async(req,res)=>{
-    const alldoctors=await Doctor.find({symptom:"PCOS"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-///**************************************************** */
-//image processing using specialities
-app.get('/cardio',async(req,res)=>{
-    const alldoctors=await Doctor.find({specialty:"Cardiology"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/dental',async(req,res)=>{
-    const alldoctors=await Doctor.find({specialty:"Dental"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/diabtology',async(req,res)=>{
-    const alldoctors=await Doctor.find({specialty:"Diabetology"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/eye',async(req,res)=>{
-    const alldoctors=await Doctor.find({specialty:"Eye"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/gyno',async(req,res)=>{
-    const alldoctors=await Doctor.find({specialty:"Gynecology"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-app.get('/ortho',async(req,res)=>{
-    const alldoctors=await Doctor.find({specialty:"Orthopedic"});
-    res.render("../views/patient.ejs",{alldoctors});
-});
-

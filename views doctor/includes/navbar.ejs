@@ -1,0 +1,70 @@
+<nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid ">
+      <a class="navbar-brand navbar" href="http://localhost:8080/24hrHealthy">
+        <img src="../images/logo.jpg" alt="Logo" width="40" height="40" class="d-inline-block align-text-top" style="border-radius: 50%;">
+        <h5 >24hrHealthy</h5>
+      </a>
+
+      <% if(!currUser){ %>
+      <a class="login" href="http://localhost:3000/login">Login</a>
+      <a class="signup" href="http://localhost:3000/signup">Sign up</a>
+      <% } %>
+      <% if(currUser){ %>
+    
+        
+            <div class="modal fade"  id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="center-box" style="height:100px ;width:100px;">
+                    <!-- START Box -->
+                    <div class="animated-border-box-glow " style="height:50px; width:200px"></div>
+                    <div class="animated-border-box">
+            
+                  <div class="modal-body navicon">
+                    <a href="http://localhost:3000/searchdocinfonavbar/<%= currUser._id %>"  style="color: aliceblue; font-size: 12px; "class="alts"><img src="../images/profiledocimg.jpeg" class="menui" ><br><b>profile</b></a>
+                    <a href="http://localhost:3000/appointmentnavbar/<%= currUser._id %>" style="color: aliceblue; font-size: 12px; margin-left: 10px;"class="alts" ><img src="../images/appointmentdoc.jpeg" class="menui" ><br><b>Appointments</b></a>
+                    <a href="http://localhost:3000/callinfonavbar/<%= currUser._id %>" style="color: aliceblue; font-size: 12px; "class="alts"><img src="../images/callimg.jpeg" class="menui" ><br><b>Calls</b></a>
+                    <a href="http://localhost:3000/vcinfonavbar/<%= currUser._id %>" style="color: aliceblue; font-size: 12px; "class="alts"><img src="../images/vcimg.jpeg"class="menui" ><br><b>Vedio Call</b></a>
+                    <a href="http://localhost:3000/chatinfonavbar/<%= currUser._id %>" style="color: aliceblue; font-size: 12px; "class="alts" ><img src="../images/chat.jpeg" class="menui"><br><b>Chats</b></a>
+                    <a href="http://localhost:3000/ratingdocinfonavbar/<%= currUser._id %>" style="color: aliceblue; font-size: 12px; "class="alts"><img src="../images/rating.jpeg" class="menui"><br><b>Ratings</b></a>
+                  </div>
+                </div>
+                <!-- END -->
+                 </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Hide this modal and show the first with the button below.
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <img src="../includes/menu.jpeg" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" style="border-radius: 50% ;height: 40px; width:40px; margin-right: 1150px;"> 
+        
+    
+
+
+
+        
+        <a class="logout" href="http://localhost:3000/logout">Logout</a>
+      <% } %>
+    </div>
+</nav>

@@ -1,0 +1,72 @@
+<% layout("/layouts/boilerplate.ejs")-%>
+<body class="signupbg">
+
+
+<div class="card">
+    <h3>Patients Appointment Information</h3>
+    
+   
+       
+       <br>
+       <div >
+           <div class="card-header">
+               <b><%= currappoin.firstName %> <%= currappoin.lastName %></b>
+               <% if (currappoin.done) { %>
+                <span id="tick-mark">✔️</span>
+             
+           </div>
+           <div class="card-body carddoctor" >
+           <p class="card-text"><B>Mobile Number: </B>  <%=currappoin.mobileNumber%></p>
+           <p class="card-text"><B>Email: </B>  <%= currappoin.email %></p>
+           <p class="card-text"><b>Date: </b><%=currappoin.preferredAppointmentDate.month %>/<%=currappoin.preferredAppointmentDate.date %>/<%=currappoin.preferredAppointmentDate.year %></p>
+           <p class="card-text"><B>Time: </B>  Start-><%= currappoin.preferredAppointmentDate. startTime %>      End->  <%=currappoin.preferredAppointmentDate.endTime %></p>
+           <p class="card-text"><b>Address: </b><%= currappoin.address.street %>,<%= currappoin.address.city %>,<%=currappoin.address.state %></p>
+           <p class="card-text"><B>Comment: </B>  <%= currappoin.comment %></p>
+           <p class="card-text"><B>Disease: </B>  <%=  currappoin.disease%></p>
+           <p class="card-text"><B>Prescription: </B>  <%= currappoin.prescription %></p>
+           <p class="card-text"><B>Precaution: </B>  <%= currappoin.precaution%></p>
+           </div>
+       </div>
+      
+      <br><br>
+      <% } %>
+     
+     
+      <div >
+        <div class="card-header">
+            
+            <% if (!currappoin.done) { %>
+             
+        </div>
+        <div class="card-body carddoctor" >
+        <p class="card-text"><B>Mobile Number: </B>  <%=currappoin.mobileNumber%></p>
+        <p class="card-text"><B>Email: </B>  <%= currappoin.email %></p>
+        <p class="card-text"><b>Date: </b><%=currappoin.preferredAppointmentDate.month %>/<%=currappoin.preferredAppointmentDate.date %>/<%=currappoin.preferredAppointmentDate.year %></p>
+        <p class="card-text"><B>Time: </B>  Start-><%= currappoin.preferredAppointmentDate. startTime %>      End->  <%=currappoin.preferredAppointmentDate.endTime %></p>
+        <p class="card-text"><b>Address: </b><%= currappoin.address.street %>,<%= currappoin.address.city %>,<%=currappoin.address.state %></p>
+        <p class="card-text"><B>Comment: </B>  <%= currappoin.comment %></p>
+        <div class="col-md-6">
+          <label for="disease" class="form-label"><b>Disease</b></label>
+          <input type="text" name="disease" class="form-control" id="inputCity" value="<%= currappoin.disease%>"><br><br>
+      </div>  
+  
+        <div class="form-floating">
+          <textarea class="form-control" name=" prescription"placeholder="Leave a comment here" id="floatingTextarea2" style="height: 150px" value="<%= currappoin.prescription%>"></textarea>
+          <label for=" prescription"><b>Prescription</b></label>
+        </div>
+        <br><br>
+        <div class="form-floating">
+          <textarea class="form-control" name="precaution"placeholder="Leave a comment here" id="floatingTextarea2" style="height: 150px" value="<%= currappoin.precaution%>"></textarea>
+          <label for="precaution"><b>Precautions</b></label>
+        </div>
+        </div>
+    </div>
+    <% } %>     
+
+      
+      <a class="btn btn-success"  id="submit-button"style="width: 200px"href="http://localhost:3000/submitprescription/<%=currappoin._id %>">Submit Details</a>
+      <br><br>
+
+</div>
+
+</body>

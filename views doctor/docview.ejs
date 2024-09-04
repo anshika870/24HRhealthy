@@ -1,0 +1,24 @@
+<% layout("/layouts/boilerplate.ejs")-%>
+<body class="signupbg">
+    <div>
+       <h1 style="text-align: center; margin-bottom: 20px; margin-top: 20px; font-size: 40px;"class="glow welcome"> <%= currdoctor.name %>, Your Details!! </h1>
+        
+        <div class="optionsymp">
+            <a href="http://localhost:3000/searchdocinfo/<%= currdoctor.id %>" class="alts"><img src="../images/profiledocimg.jpeg" class="imgp" ><br><b>profile</b></a>
+                
+            <a href="http://localhost:3000/appointment/<%= currdoctor.id %>" class="alts" ><img src="../images/appointmentdoc.jpeg" class="imgp" ><br><b>Appointments</b></a>
+        </div> 
+        <div class="optionsymp">
+            <a href="http://localhost:3000/searchdocinfo/<%= currdoctor.id %>" class="alts"><img src="../images/callimg.jpeg" class="imgp" ><br><b>Calls</b></a>
+         
+        
+            <a href="http://localhost:3000/searchdocinfo/<%= currdoctor.id %>" class="alts"><img src="../images/vcimg.jpeg" class="imgp" ><br><b>Vedio Call</b></a>
+        </div> 
+        <div class="optionsymp">     
+            <a href="http://localhost:3000/searchdocinfo/<%= currdoctor.id %>" class="alts" ><img src="../images/chat.jpeg" class="imgp" ><br><b>Chats</b></a>
+            
+            <a href="http://localhost:3000/searchdocinfo/<%= currdoctor.id %>" class="alts"><img src="../images/rating.jpeg" class="imgp" ><br><b>Ratings</b></a>
+        </div> 
+  
+    </div>
+</body>

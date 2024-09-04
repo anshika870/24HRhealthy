@@ -1,0 +1,19 @@
+<% layout("/layouts/boilerplate.ejs")-%>
+<body class="docpbg">
+    <div class="card mb-1 cardprofile" style="max-width: 540px;">
+        <div class="row g-0 profile1">
+          <div class="col-md-4">
+            <img src="../images/profiledocimg.jpeg" class="img-fluid rounded-start" alt="profile">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+            <h5 class="card-title">Dr. <%= currdoctor.name %></h5><br>
+              <p ><b>Mobile Number:</b> <%= currdoctor.mobile_number %></p>
+              <p ><b>Specialty: </b><%= currdoctor.specialty %></p>
+              <p ><b>Ratings:</b> <%= currdoctor.rating %></p>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
